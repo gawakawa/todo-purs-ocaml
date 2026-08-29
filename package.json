@@ -1,0 +1,12 @@
+{
+  "name": "purs-nix",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "vite": "^8"
+  }
+}
