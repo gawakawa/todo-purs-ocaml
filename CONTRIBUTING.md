@@ -2,10 +2,13 @@
 
 ## Commands
 
+Run `nix` commands from the repository root, and frontend commands from `frontend/`.
+
 - `nix fmt` - Format code
 - `nix flake check` - Run checks (format, lint)
-- `nix build` - Compile `src/` into per-module ES modules under `output/` (`result`)
-- `purs-nix compile` - Generate `output/` for editor/LSP use
-- `npm install` - Install npm dependencies
-- `npm run serve` - Start the dev server at http://localhost:5173
-- `npm run build` - Build for production into `dist/` (requires `purs-nix compile` first)
+- `nix build --out-link frontend/output` - Compile `frontend/src/` into per-module ES modules
+- `cd frontend && purs-nix compile` - Generate `frontend/output/` for editor/LSP use
+- `cd frontend && npm install` - Install npm dependencies
+- `cd frontend && npm run serve` - Start the dev server at http://localhost:5173
+- `cd frontend && npm run build` - Build for production into `frontend/dist/`
+  (requires `purs-nix compile` first)

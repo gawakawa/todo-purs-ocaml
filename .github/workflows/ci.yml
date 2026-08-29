@@ -33,16 +33,18 @@ jobs:
         run: nix flake check
 
       - name: Build PureScript output
-        run: nix build --out-link output
+        run: nix build --out-link frontend/output
 
       - name: Install CI dependencies
         run: nix profile add .#ci
 
       - name: Install dependencies
         run: npm ci
+        working-directory: frontend
 
       - name: Build frontend
         run: npm run build
+        working-directory: frontend
 
   ci-success:
     needs: [tests]

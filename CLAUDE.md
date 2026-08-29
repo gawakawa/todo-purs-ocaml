@@ -2,6 +2,8 @@
 
 ## Overview
 
+Todo app: frontend in PureScript + React (`frontend/`), backend in OCaml (planned, not yet present).
+
 ## Docs
 
 - `README.md` — Project overview and usage

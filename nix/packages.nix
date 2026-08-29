@@ -20,7 +20,7 @@
 
       node_modules =
         pkgs.importNpmLock.buildNodeModules {
-          npmRoot = ./..;
+          npmRoot = ./../frontend;
           nodejs = pkgs.nodejs_24;
         }
         + /node_modules;
@@ -66,7 +66,7 @@
           "test-unit"
         ];
 
-        dir = ./..;
+        dir = ./../frontend;
       };
 
     in
