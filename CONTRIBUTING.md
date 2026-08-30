@@ -21,6 +21,8 @@ own `flake.lock` and `.envrc`. Run each flake's `nix` commands from its own dire
   (`/api/*` proxies to `http://localhost:8080`, see `vite.config.js`)
 - `cd frontend && npm run build` - Build for production into `dist/`
   (requires `purs-nix compile` first)
+- `cd frontend && npm run preview` - Build for production and preview via `wrangler dev`
+- `cd frontend && npm run deploy` - Build for production and deploy to Cloudflare Workers
 
 ### Backend
 
