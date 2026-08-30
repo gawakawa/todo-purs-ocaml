@@ -2,20 +2,31 @@
 
 ## Commands
 
-Run `nix` commands from the repository root, and frontend/backend commands from
-`frontend/`/`backend/` respectively. There is no `packages.default` — always name the package
-(`nix build .#frontend` / `nix build .#backend`).
+`flake.nix` is split into three independent flakes — root, `frontend/`, `backend/` — each with its
+own `flake.lock` and `.envrc`. Run each flake's `nix` commands from its own directory.
 
-- `nix fmt` - Format code
-- `nix flake check` - Run checks (format, lint, backend build/test)
-- `nix build .#frontend --out-link frontend/output` - Compile `frontend/src/` into per-module ES modules
-- `cd frontend && purs-nix compile` - Generate `frontend/output/` for editor/LSP use
+### Root (formatting, lint)
+
+- `nix fmt` - Format `*.nix` and `*.json`/`*.md`/`*.yaml` repo-wide
+- `nix flake check` - Run format/lint checks (statix, deadnix, actionlint, zizmor, workflow-timeout)
+
+### Frontend
+
+- `cd frontend && nix fmt` - Format `*.purs`
+- `cd frontend && nix flake check` - Run checks (format, PureScript test)
+- `cd frontend && nix build . --out-link output` - Compile `src/` into per-module ES modules
+- `cd frontend && purs-nix compile` - Generate `output/` for editor/LSP use
 - `cd frontend && npm install` - Install npm dependencies
 - `cd frontend && npm run serve` - Start the dev server at http://localhost:5173
-  (`/api/*` proxies to `http://localhost:8080`, see `frontend/vite.config.js`)
-- `cd frontend && npm run build` - Build for production into `frontend/dist/`
+  (`/api/*` proxies to `http://localhost:8080`, see `vite.config.js`)
+- `cd frontend && npm run build` - Build for production into `dist/`
   (requires `purs-nix compile` first)
-- `nix build .#backend` - Build the backend
+
+### Backend
+
+- `cd backend && nix fmt` - Format `*.ml`
+- `cd backend && nix flake check` - Run checks (format, build, test)
+- `cd backend && nix build .` - Build the backend
 - `cd backend && dune exec backend` - Run the backend HTTP server at http://localhost:8080
 - `cd backend && dune utop bin` - Start a REPL (utop) with the backend's modules loaded
 - `cd backend && dune build backend.opam` - Regenerate `backend.opam` after editing

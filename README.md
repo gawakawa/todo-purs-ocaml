@@ -22,5 +22,5 @@ Todo app: frontend in PureScript + React (`frontend/`), backend in OCaml (`backe
 ├── frontend           # PureScript + React
 │   ├── src
 │   └── test
-└── nix                # flake-parts modules shared across frontend/backend
+└── nix                # flake-parts modules for repo-wide formatting/lint (root flake)
 ```

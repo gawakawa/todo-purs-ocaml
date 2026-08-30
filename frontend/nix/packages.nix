@@ -20,7 +20,7 @@
 
       node_modules =
         pkgs.importNpmLock.buildNodeModules {
-          npmRoot = ./../frontend;
+          npmRoot = ./..;
           nodejs = pkgs.nodejs_24;
         }
         + /node_modules;
@@ -67,49 +67,19 @@
           "test-unit"
         ];
 
-        dir = ./../frontend;
+        dir = ./..;
       };
-
-      backendPackage = "backend";
-      on = inputs.opam-nix.lib.${system};
-      backendDevPackagesQuery = {
-        ocaml-lsp-server = "*";
-        utop = "*";
-      };
-      backendQuery = backendDevPackagesQuery // {
-        ocaml-base-compiler = "*";
-      };
-      backendScope = on.buildOpamProject' { resolveArgs.with-test = true; } ./../backend backendQuery;
-      backendOverlay = _final: prev: {
-        ${backendPackage} = prev.${backendPackage}.overrideAttrs (_: {
-          # Prevent the ocaml dependencies from leaking into dependent environments
-          doNixSupport = false;
-        });
-      };
-      backendScope' = backendScope.overrideScope backendOverlay;
-      backend = backendScope'.${backendPackage};
-      backendDevPackages = builtins.attrValues (
-        pkgs.lib.getAttrs (builtins.attrNames backendDevPackagesQuery) backendScope'
-      );
-
     in
     {
       _module.args = {
-        inherit
-          pkgs
-          ps
-          purs-nix
-          backend
-          backendDevPackages
-          ;
+        inherit pkgs ps purs-nix;
         ps-tools = inputs.ps-tools.legacyPackages.${system};
       };
 
       ciPackages = with pkgs; [ nodejs_24 ];
 
       packages = {
-        frontend = ps.output { };
-        inherit backend;
+        default = ps.output { };
         ci = pkgs.buildEnv {
           name = "ci";
           paths = config.ciPackages;
