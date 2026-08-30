@@ -139,10 +139,16 @@ let destroy request =
     | true -> Dream.empty `No_Content)
 ;;
 
+let database_url =
+  match Sys.getenv_opt "DATABASE_URL" with
+  | Some url -> url
+  | None -> failwith "DATABASE_URL environment variable is not set"
+;;
+
 let () =
   Dream.run ~port:8080 ~interface:"0.0.0.0"
   @@ Dream.logger
-  @@ Dream.sql_pool "sqlite3:db.sqlite"
+  @@ Dream.sql_pool database_url
   @@ Dream.router
        [ Dream.get "/api/todos" index
        ; Dream.get "/api/todos/:id" show

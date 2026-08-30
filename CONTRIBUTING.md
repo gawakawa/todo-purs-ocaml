@@ -29,8 +29,10 @@ own `flake.lock` and `.envrc`. Run each flake's `nix` commands from its own dire
 - `cd backend && nix fmt` - Format `*.ml`
 - `cd backend && nix flake check` - Run checks (format, build, test)
 - `cd backend && nix build .` - Build the backend
-- `cd backend && sqlite3 db.sqlite < schema.sql` - Create the local SQLite database
+- `cd backend && psql $DATABASE_URL -f schema.sql` - Apply the schema to Postgres
+  (`DATABASE_URL` must be set, e.g. via `.envrc.local`)
 - `cd backend && dune exec backend` - Run the backend HTTP server at http://localhost:8080
+  (requires `DATABASE_URL` to be set to a reachable Postgres connection string)
 - `cd backend && dune utop bin` - Start a REPL (utop) with the backend's modules loaded
 - `cd backend && dune build backend.opam` - Regenerate `backend.opam` after editing
   `dune-project`'s `depends`

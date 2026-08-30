@@ -7,7 +7,7 @@ depends: [
   "dream"
   "caqti"
   "caqti-lwt"
-  "caqti-driver-sqlite3"
+  "caqti-driver-postgresql"
   "lwt"
   "lwt_ppx"
   "yojson"
