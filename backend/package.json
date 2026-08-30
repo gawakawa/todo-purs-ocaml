@@ -1,0 +1,15 @@
+{
+  "name": "todo-purs-ocaml-backend-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "^0.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}
