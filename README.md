@@ -15,15 +15,12 @@ Todo app: frontend in PureScript + React (`frontend/`), backend in OCaml (`backe
 ## Directory Structure
 
 ```
-/
-├ flake.nix, flake.lock, .envrc
-├ nix/            # flake-parts modules shared across frontend/backend
-├ .github/
-├ frontend/       # PureScript + React
-│ ├ index.html, index.js, style.css
-│ ├ package.json, vite.config.js
-│ └ src/, test/
-└ backend/        # OCaml
-  ├ dune-project, backend.opam
-  └ bin/, test/
+.
+├── backend            # OCaml API server (Dream)
+│   ├── bin
+│   └── test
+├── frontend           # PureScript + React
+│   ├── src
+│   └── test
+└── nix                # flake-parts modules shared across frontend/backend
 ```
