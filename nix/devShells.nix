@@ -1,24 +1,9 @@
 _: {
   perSystem =
-    {
-      config,
-      pkgs,
-      ps,
-      purs-nix,
-      ...
-    }:
-    let
-      devPackages =
-        config.ciPackages
-        ++ config.pre-commit.settings.enabledPackages
-        ++ [
-          (ps.command { })
-          purs-nix.purescript
-        ];
-    in
+    { config, pkgs, ... }:
     {
       devShells.default = pkgs.mkShell {
-        buildInputs = devPackages;
+        buildInputs = config.pre-commit.settings.enabledPackages;
         shellHook = ''
           ${config.pre-commit.shellHook}
         '';

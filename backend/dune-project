@@ -1,0 +1,15 @@
+(lang dune 3.0)
+(name backend)
+(generate_opam_files true)
+
+(package
+ (name backend)
+ (synopsis "Template OCaml project")
+ (depends
+  (ocaml
+   (>= 4.14))
+  dune
+  dream
+  (alcotest :with-test)
+  (qcheck :with-test)
+  (qcheck-alcotest :with-test)))

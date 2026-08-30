@@ -1,0 +1,19 @@
+name: "Setup Nix"
+description: "Install Nix and configure the Cachix binary cache (checkout must run before this)"
+
+inputs:
+  cachix-auth-token:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: cachix/install-nix-action@bec50b45a8bb06017c42af46702a3f502adcfa9e # v31
+      with:
+        github_access_token: ${{ github.token }}
+
+    - name: Setup Cachix
+      uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
+      with:
+        name: gawakawa
+        authToken: ${{ inputs.cachix-auth-token }}

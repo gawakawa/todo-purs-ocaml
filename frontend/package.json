@@ -1,10 +1,14 @@
 {
-  "name": "purs-nix",
+  "name": "todo-purs-ocaml-frontend",
   "private": true,
   "type": "module",
   "scripts": {
     "serve": "vite",
     "build": "vite build"
+  },
+  "dependencies": {
+    "react": "^19",
+    "react-dom": "^19"
   },
   "devDependencies": {
     "vite": "^8"
