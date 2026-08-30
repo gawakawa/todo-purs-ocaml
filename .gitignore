@@ -14,3 +14,25 @@ main.js
 result
 .pre-commit-config.yaml
 dist
+.mcp.json
+
+# OCaml
+*.annot
+*.cmo
+*.cma
+*.cmi
+*.a
+*.o
+*.cmx
+*.cmxs
+*.cmxa
+*.cmt
+*.cmti
+_build/
+*.byte
+*.native
+setup.data
+setup.log
+.merlin
+*.install
+_opam/

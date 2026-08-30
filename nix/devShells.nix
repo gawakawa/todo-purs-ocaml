@@ -5,6 +5,8 @@ _: {
       pkgs,
       ps,
       purs-nix,
+      backend,
+      backendDevPackages,
       ...
     }:
     let
@@ -14,10 +16,12 @@ _: {
         ++ [
           (ps.command { })
           purs-nix.purescript
-        ];
+        ]
+        ++ backendDevPackages;
     in
     {
       devShells.default = pkgs.mkShell {
+        inputsFrom = [ backend ];
         buildInputs = devPackages;
         shellHook = ''
           ${config.pre-commit.shellHook}

@@ -8,6 +8,10 @@ _: {
             enable = true;
             includes = [ "*.nix" ];
           };
+          ocamlformat = {
+            enable = true;
+            configFile = ../backend/.ocamlformat;
+          };
           oxfmt = {
             enable = true;
             includes = [

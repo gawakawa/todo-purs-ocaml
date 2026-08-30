@@ -2,7 +2,7 @@
 
 ## Overview
 
-Todo app: frontend in PureScript + React (`frontend/`), backend in OCaml (planned, not yet present).
+Todo app: frontend in PureScript + React (`frontend/`), backend in OCaml (`backend/`).
 
 ## Features
 
@@ -19,8 +19,11 @@ Todo app: frontend in PureScript + React (`frontend/`), backend in OCaml (planne
 ├ flake.nix, flake.lock, .envrc
 ├ nix/            # flake-parts modules shared across frontend/backend
 ├ .github/
-└ frontend/       # PureScript + React
-  ├ index.html, index.js, style.css
-  ├ package.json, vite.config.js
-  └ src/, test/
+├ frontend/       # PureScript + React
+│ ├ index.html, index.js, style.css
+│ ├ package.json, vite.config.js
+│ └ src/, test/
+└ backend/        # OCaml
+  ├ dune-project, backend.opam
+  └ bin/, test/
 ```
