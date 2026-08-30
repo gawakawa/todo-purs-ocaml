@@ -21,6 +21,8 @@ own `flake.lock` and `.envrc`. Run each flake's `nix` commands from its own dire
   (`/api/*` proxies to `http://localhost:8080`, see `vite.config.js`)
 - `cd frontend && npm run build` - Build for production into `dist/`
   (requires `purs-nix compile` first)
+- `cd frontend && npm run preview` - Build for production and preview via `wrangler dev`
+- `cd frontend && npm run deploy` - Build for production and deploy to Cloudflare Workers
 
 ### Backend
 
@@ -31,3 +33,4 @@ own `flake.lock` and `.envrc`. Run each flake's `nix` commands from its own dire
 - `cd backend && dune utop bin` - Start a REPL (utop) with the backend's modules loaded
 - `cd backend && dune build backend.opam` - Regenerate `backend.opam` after editing
   `dune-project`'s `depends`
+- `cd backend && nix build .#container` - Build the backend container image via nix2container
