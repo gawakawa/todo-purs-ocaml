@@ -4,7 +4,7 @@
 
 (package
  (name backend)
- (synopsis "Template OCaml project")
+ (synopsis "Todo app backend")
  (depends
   (ocaml
    (>= 4.14))
@@ -14,6 +14,5 @@
   caqti-lwt
   caqti-driver-sqlite3
   lwt
-  (alcotest :with-test)
-  (qcheck :with-test)
-  (qcheck-alcotest :with-test)))
+  lwt_ppx
+  yojson))

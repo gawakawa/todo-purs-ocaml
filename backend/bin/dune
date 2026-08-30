@@ -1,4 +1,6 @@
 (executable
  (name main)
  (public_name backend)
- (libraries caqti caqti-lwt caqti-driver-sqlite3 dream lwt))
+ (libraries caqti caqti-lwt caqti-driver-sqlite3 dream lwt yojson)
+ (preprocess
+  (pps lwt_ppx)))
