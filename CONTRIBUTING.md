@@ -12,8 +12,9 @@ Run `nix` commands from the repository root, and frontend/backend commands from
 - `cd frontend && purs-nix compile` - Generate `frontend/output/` for editor/LSP use
 - `cd frontend && npm install` - Install npm dependencies
 - `cd frontend && npm run serve` - Start the dev server at http://localhost:5173
+  (`/api/*` proxies to `http://localhost:8080`, see `frontend/vite.config.js`)
 - `cd frontend && npm run build` - Build for production into `frontend/dist/`
   (requires `purs-nix compile` first)
 - `nix build .#backend` - Build the backend
-- `cd backend && dune exec backend` - Run the backend executable
+- `cd backend && dune exec backend` - Run the backend HTTP server at http://localhost:8080
 - `cd backend && dune utop bin` - Start a REPL (utop) with the backend's modules loaded

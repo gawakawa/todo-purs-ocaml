@@ -38,6 +38,7 @@
           "ursi.debug"
           "effect"
           "prelude"
+          "affjax-web"
 
           (with-react purs-nix.ps-pkgs.react-basic [
             "React.Basic"

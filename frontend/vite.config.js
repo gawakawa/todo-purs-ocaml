@@ -33,6 +33,9 @@ export default defineConfig({
     host: "localhost",
     port: 5173,
     strictPort: false,
+    proxy: {
+      "/api": "http://localhost:8080",
+    },
   },
 
   preview: {
