@@ -17,6 +17,3 @@ setup.log
 .merlin
 *.install
 _opam/
-
-node_modules/
-.wrangler/

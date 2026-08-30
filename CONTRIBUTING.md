@@ -34,5 +34,3 @@ own `flake.lock` and `.envrc`. Run each flake's `nix` commands from its own dire
 - `cd backend && dune build backend.opam` - Regenerate `backend.opam` after editing
   `dune-project`'s `depends`
 - `cd backend && nix build .#container` - Build the backend container image via nix2container
-- `cd backend && npm run dev` - Preview the container locally via `wrangler dev`
-- `cd backend && npm run deploy` - Deploy the container to Cloudflare

@@ -7,6 +7,10 @@ export class Backend extends Container {
 
 export default {
   async fetch(request, env) {
-    return getContainer(env.BACKEND).fetch(request);
+    const url = new URL(request.url);
+    if (url.pathname.startsWith("/api/")) {
+      return getContainer(env.BACKEND).fetch(request);
+    }
+    return env.ASSETS.fetch(request);
   },
 };
