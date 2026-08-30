@@ -1,18 +1,7 @@
-{ inputs, flake-parts-lib, ... }:
+{ inputs, ... }:
 {
-  options.perSystem = flake-parts-lib.mkPerSystemOption (
-    { lib, ... }:
-    {
-      options.ciPackages = lib.mkOption {
-        type = lib.types.listOf lib.types.package;
-        default = [ ];
-        description = "Packages for CI environment";
-      };
-    }
-  );
-
-  config.perSystem =
-    { config, system, ... }:
+  perSystem =
+    { system, ... }:
     let
       pkgs = import inputs.nixpkgs { inherit system; };
 
@@ -69,20 +58,25 @@
 
         dir = ./..;
       };
+
+      ciPackages = with pkgs; [ nodejs_24 ];
     in
     {
       _module.args = {
-        inherit pkgs ps purs-nix;
+        inherit
+          pkgs
+          ps
+          purs-nix
+          ciPackages
+          ;
         ps-tools = inputs.ps-tools.legacyPackages.${system};
       };
-
-      ciPackages = with pkgs; [ nodejs_24 ];
 
       packages = {
         default = ps.output { };
         ci = pkgs.buildEnv {
           name = "ci";
-          paths = config.ciPackages;
+          paths = ciPackages;
         };
       };
     };

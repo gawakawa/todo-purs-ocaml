@@ -5,11 +5,12 @@ _: {
       pkgs,
       ps,
       purs-nix,
+      ciPackages,
       ...
     }:
     let
       devPackages =
-        config.ciPackages
+        ciPackages
         ++ config.pre-commit.settings.enabledPackages
         ++ [
           (ps.command { })

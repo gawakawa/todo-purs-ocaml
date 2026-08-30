@@ -31,12 +31,16 @@ jobs:
               - 'flake.nix'
               - 'flake.lock'
               - 'nix/**'
-              - '.github/workflows/**'
               - '**/*.md'
+              - '.github/**'
+              - '!.github/workflows/frontend.yml'
+              - '!.github/workflows/backend.yml'
             frontend:
               - 'frontend/**'
+              - '.github/workflows/frontend.yml'
             backend:
               - 'backend/**'
+              - '.github/workflows/backend.yml'
 
   root-check:
     needs: detect-changes
