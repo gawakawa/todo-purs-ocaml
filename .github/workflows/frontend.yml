@@ -1,19 +1,22 @@
-name: "CI"
+name: "Frontend"
 
 on:
-  pull_request:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_call:
+    secrets:
+      CACHIX_AUTH_TOKEN:
+        required: true
 
 permissions:
   contents: read
 
 jobs:
-  tests:
+  check:
+    name: Check
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -33,28 +36,13 @@ jobs:
         run: nix flake check
 
       - name: Build PureScript output
-        run: nix build .#frontend --out-link frontend/output
-
-      - name: Build backend
-        run: nix build .#backend
+        run: nix build . --out-link output
 
       - name: Install CI dependencies
         run: nix profile add .#ci
 
       - name: Install dependencies
         run: npm ci
-        working-directory: frontend
 
       - name: Build frontend
         run: npm run build
-        working-directory: frontend
-
-  ci-success:
-    needs: [tests]
-    if: always()
-    runs-on: ubuntu-latest
-    timeout-minutes: 1
-    steps:
-      - name: Verify all checks passed
-        run: exit 1
-        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')

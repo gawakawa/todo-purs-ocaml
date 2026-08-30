@@ -1,0 +1,81 @@
+name: "CI"
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      root: ${{ steps.filter.outputs.root }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ steps.filter.outputs.backend }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          filters: |
+            root:
+              - 'flake.nix'
+              - 'flake.lock'
+              - 'nix/**'
+              - '.github/workflows/**'
+              - '**/*.md'
+            frontend:
+              - 'frontend/**'
+            backend:
+              - 'backend/**'
+
+  root-check:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.root == 'true'
+    uses: ./.github/workflows/root.yml
+    secrets:
+      CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+  frontend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    uses: ./.github/workflows/frontend.yml
+    secrets:
+      CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+  backend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.backend == 'true'
+    uses: ./.github/workflows/backend.yml
+    secrets:
+      CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+  ci-success:
+    needs: [detect-changes, root-check, frontend, backend]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Verify detect-changes
+        run: test "${{ needs.detect-changes.result }}" == "success"
+
+      - name: Verify root-check
+        if: needs.detect-changes.outputs.root == 'true'
+        run: test "${{ needs.root-check.result }}" == "success"
+
+      - name: Verify frontend
+        if: needs.detect-changes.outputs.frontend == 'true'
+        run: test "${{ needs.frontend.result }}" == "success"
+
+      - name: Verify backend
+        if: needs.detect-changes.outputs.backend == 'true'
+        run: test "${{ needs.backend.result }}" == "success"
