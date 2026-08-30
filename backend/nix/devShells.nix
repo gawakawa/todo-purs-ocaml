@@ -8,7 +8,7 @@ _: {
       ...
     }:
     let
-      devPackages = config.pre-commit.settings.enabledPackages ++ backendDevPackages;
+      devPackages = config.pre-commit.settings.enabledPackages ++ backendDevPackages ++ [ pkgs.sqlite ];
     in
     {
       devShells.default = pkgs.mkShell {
