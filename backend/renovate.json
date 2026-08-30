@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabledManagers": ["github-actions", "opam"],
+  "schedule": ["before 06:00 on monday"],
+  "packageRules": [
+    {
+      "matchManagers": ["opam"],
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "matchManagers": ["opam"],
+      "matchUpdateTypes": ["major"],
+      "minimumReleaseAge": "30 days"
+    },
+    {
+      "matchManagers": ["opam"],
+      "matchUpdateTypes": ["minor"],
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "matchManagers": ["opam"],
+      "matchUpdateTypes": ["patch"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "minimumReleaseAge": "7 days"
+    }
+  ]
+}
