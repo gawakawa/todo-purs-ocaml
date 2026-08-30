@@ -4,6 +4,7 @@ synopsis: "Template OCaml project"
 depends: [
   "ocaml" {>= "4.14"}
   "dune" {>= "3.0"}
+  "dream"
   "alcotest" {with-test}
   "qcheck" {with-test}
   "qcheck-alcotest" {with-test}
