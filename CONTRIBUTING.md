@@ -18,3 +18,5 @@ Run `nix` commands from the repository root, and frontend/backend commands from
 - `nix build .#backend` - Build the backend
 - `cd backend && dune exec backend` - Run the backend HTTP server at http://localhost:8080
 - `cd backend && dune utop bin` - Start a REPL (utop) with the backend's modules loaded
+- `cd backend && dune build backend.opam` - Regenerate `backend.opam` after editing
+  `dune-project`'s `depends`
