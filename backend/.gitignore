@@ -17,4 +17,5 @@ setup.log
 .merlin
 *.install
 _opam/
-db.sqlite*
+.envrc.local
+data/

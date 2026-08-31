@@ -2,6 +2,9 @@ module Test.Main where
 
 import Prelude
 
+import Api (decodeTodo)
+import Data.Argonaut (parseJson)
+import Data.Either (Either(..))
 import Effect (Effect)
 import Test.Unit (suite, test)
 import Test.Unit.Assert as Assert
@@ -9,6 +12,10 @@ import Test.Unit.Main (runTest)
 
 main :: Effect Unit
 main = runTest do
-  suite "basic tests" do
-    test "example test" do
-      Assert.equal 1 1
+  suite "Api.decodeTodo" do
+    test "decodes a todo from JSON" do
+      let
+        body = """{"id":1,"title":"first todo","completed":false}"""
+        expected = Right { id: 1, title: "first todo", completed: false }
+        actual = parseJson body >>= decodeTodo
+      Assert.equal expected actual
