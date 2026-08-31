@@ -5,21 +5,21 @@ module T = Caqti_type
 type todo =
   { id : int
   ; title : string
-  ; done_ : bool (* done is an OCaml keyword *)
+  ; completed : bool
   }
 
 type create = { title : string }
 
 type update =
   { title : string
-  ; done_ : bool
+  ; completed : bool
   }
 
 let row = T.(t3 int string bool)
-let of_row (id, title, done_) = { id; title; done_ }
+let of_row (id, title, completed) = { id; title; completed }
 
-let yojson_of_todo { id; title; done_ } =
-  `Assoc [ "id", `Int id; "title", `String title; "done", `Bool done_ ]
+let yojson_of_todo { id; title; completed } =
+  `Assoc [ "id", `Int id; "title", `String title; "completed", `Bool completed ]
 ;;
 
 (* Field access via Yojson.Safe.Util raises on a missing/mistyped field,
@@ -31,14 +31,14 @@ let create_of_yojson json =
 let update_of_yojson json =
   let open Yojson.Safe.Util in
   { title = json |> member "title" |> to_string
-  ; done_ = json |> member "done" |> to_bool
+  ; completed = json |> member "completed" |> to_bool
   }
 ;;
 
 let list_todos =
   let query =
     let open Caqti_request.Infix in
-    (T.unit ->* row) "SELECT id, title, done FROM todo ORDER BY id"
+    (T.unit ->* row) "SELECT id, title, completed FROM todo ORDER BY id"
   in
   fun (module Db : DB) ->
     let%lwt todos_or_error = Db.collect_list query () in
@@ -49,7 +49,7 @@ let list_todos =
 let get_todo id =
   let query =
     let open Caqti_request.Infix in
-    (T.int ->? row) "SELECT id, title, done FROM todo WHERE id = ?"
+    (T.int ->? row) "SELECT id, title, completed FROM todo WHERE id = ?"
   in
   fun (module Db : DB) ->
     let%lwt todo_or_error = Db.find_opt query id in
@@ -60,7 +60,7 @@ let get_todo id =
 let create_todo title =
   let query =
     let open Caqti_request.Infix in
-    (T.string ->! row) "INSERT INTO todo (title) VALUES (?) RETURNING id, title, done"
+    (T.string ->! row) "INSERT INTO todo (title) VALUES (?) RETURNING id, title, completed"
   in
   fun (module Db : DB) ->
     let%lwt todo_or_error = Db.find query title in
@@ -68,14 +68,14 @@ let create_todo title =
     Lwt.return (of_row todo)
 ;;
 
-let update_todo id title done_ =
+let update_todo id title completed =
   let query =
     let open Caqti_request.Infix in
     (T.(t3 string bool int) ->? row)
-      "UPDATE todo SET title = ?, done = ? WHERE id = ? RETURNING id, title, done"
+      "UPDATE todo SET title = ?, completed = ? WHERE id = ? RETURNING id, title, completed"
   in
   fun (module Db : DB) ->
-    let%lwt todo_or_error = Db.find_opt query (title, done_, id) in
+    let%lwt todo_or_error = Db.find_opt query (title, completed, id) in
     let%lwt todo = Caqti_lwt.or_fail todo_or_error in
     Lwt.return (Option.map of_row todo)
 ;;
@@ -126,8 +126,8 @@ let create request =
 
 let update request =
   with_id request (fun id ->
-    with_body request update_of_yojson (fun { title; done_ } ->
-      match%lwt Dream.sql request (update_todo id title done_) with
+    with_body request update_of_yojson (fun { title; completed } ->
+      match%lwt Dream.sql request (update_todo id title completed) with
       | None -> Dream.empty `Not_Found
       | Some todo -> json_todo todo))
 ;;

@@ -26,7 +26,7 @@ import Effect.Aff (Aff, attempt)
 import Effect.Exception (Error)
 import Fetch (Method(..), fetch)
 
-type Todo = { id :: Int, title :: String, done :: Boolean }
+type Todo = { id :: Int, title :: String, completed :: Boolean }
 
 data ApiError
   = NetworkError Error
@@ -76,7 +76,7 @@ update todo =
     ( fetch ("/api/todos/" <> show todo.id)
         { method: PUT
         , headers: { "Content-Type": "application/json" }
-        , body: stringify (encodeJson { title: todo.title, done: todo.done })
+        , body: stringify (encodeJson { title: todo.title, completed: todo.completed })
         }
     )
     >>= case _ of

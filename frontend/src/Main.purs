@@ -34,7 +34,7 @@ todoRow { todo, onToggle, onDelete } =
   R.li_
     [ R.input
         { type: "checkbox"
-        , checked: todo.done
+        , checked: todo.completed
         , onChange: handler_ onToggle
         }
     , R.text todo.title
@@ -73,7 +73,7 @@ mkApp = component "App" \_ ->
     let
       handleToggle :: Todo -> Effect Unit
       handleToggle todo = launchAff_ do
-        res <- update todo { done = not todo.done }
+        res <- update todo { completed = not todo.completed }
         case res of
           Left _ -> pure unit
           Right _ -> liftEffect reset

@@ -15,7 +15,7 @@ main = runTest do
   suite "Api.decodeTodo" do
     test "decodes a todo from JSON" do
       let
-        body = """{"id":1,"title":"first todo","done":false}"""
-        expected = Right { id: 1, title: "first todo", done: false }
+        body = """{"id":1,"title":"first todo","completed":false}"""
+        expected = Right { id: 1, title: "first todo", completed: false }
         actual = parseJson body >>= decodeTodo
       Assert.equal expected actual
