@@ -18,3 +18,4 @@ setup.log
 *.install
 _opam/
 .envrc.local
+data/
