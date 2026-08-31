@@ -14,14 +14,14 @@ _: {
         ++ backendDevPackages
         ++ [
           pkgs.postgresql
-          self'.packages.backend-services
+          self'.packages.db
         ];
     in
     {
       devShells.default = pkgs.mkShell {
         inputsFrom = [ backend ];
         buildInputs = devPackages;
-        DATABASE_URL = config.process-compose."backend-services".services.postgres.pg1.connectionURI {
+        DATABASE_URL = config.process-compose."db".services.postgres.pg1.connectionURI {
           dbName = "todo";
         };
         shellHook = ''

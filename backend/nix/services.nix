@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   perSystem = _: {
-    process-compose."backend-services" = {
+    process-compose."db" = {
       imports = [ inputs.services-flake.processComposeModules.default ];
       services.postgres."pg1" = {
         enable = true;
