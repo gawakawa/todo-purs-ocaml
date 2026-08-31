@@ -27,7 +27,8 @@
           "ursi.debug"
           "effect"
           "prelude"
-          "affjax-web"
+          "fetch"
+          "argonaut"
 
           (with-react purs-nix.ps-pkgs.react-basic [
             "React.Basic"
